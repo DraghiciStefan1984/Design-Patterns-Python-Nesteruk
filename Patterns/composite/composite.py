@@ -1,47 +1,50 @@
-from abc import ABC
+
+class GraphicObject:
+	def __init__(self, color=None):
+		self.color=color
+		self.children=[]
+		self._name='Group'
+		
+	@property
+	def name(self):
+		return self._name
+		
+	@name.setter
+	def name(self, value):
+		self._name=value
+		
+	def _print(self, items, depth):
+		items.append('*'*depth)
+		if self.color:
+			items.append(self.color)
+		items.append(f'{self.name}\n')
+		for child in self.children:
+			child._print(items, depth+1)
+			
+	def __str__(self):
+		items=[]
+		self._print(items, 0)
+		return ''.join(items)
+		
+		
+class Circle(GraphicObject):
+	@property
+	def name(self):
+		return 'Circle'
 
 
-class Renderer(ABC):
-	def render_circle(self, radius):
-		pass
+class Square(GraphicObject):
+	@property
+	def name(self):
+		return 'Square'
 		
-		
-class VectorRenderer(Renderer):
-	def render_circle(self, radius):
-		print(f'drawing a circle of radius {radius}.')
-		
-		
-class RasterRenderer(Renderer):
-	def render_circle(self, radius):
-		print(f'drawing pixels for a circle of radius {radius}.')
-		
-		
-class Shape:
-	def __init__(self, renderer):
-		self.renderer=renderer
-		
-	def draw(self):pass
-	
-	def resize(self, factor):pass
-	
-	
-class Circle(Shape):
-	def __init__(self, renderer, radius):
-		super().__init__(renderer)
-		self.radius=radius
-		
-	def draw(self):
-		self.renderer.render_circle(self.radius)
-		
-	def resize(self, factor):
-		self.radius*=factor
-		print(f'now, circle has the radius of {self.radius}')
-
 
 #test
-raster=RasterRenderer()
-vector=VectorRenderer()
-#circle=Circle(vector, 5)
-circle=Circle(raster, 5)
-circle.draw()
-circle.resize(10)
+drawing=GraphicObject()
+drawing.name='Drawing'
+drawing.children.append(Square('red'))
+drawing.children.append(Square('blue'))
+drawing.children.append(Circle('yellow'))
+drawing.children.append(Circle('green'))
+
+print(drawing)
