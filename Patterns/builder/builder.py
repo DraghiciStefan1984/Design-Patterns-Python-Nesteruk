@@ -25,31 +25,27 @@ class HtmlElement:
 	def __str__(self):
 		return self.__str(0)
 		
-	@staticmethod
-	def create(name):
-		return HtmlBuilder(name)
 		
-
 class HtmlBuilder:
 	def __init__(self, root_name):
 		self.root_name=root_name
-		self.__root=HtmlElement(name=root_name)
-	
-	#lazy way	
-	def add_child(self, child_name, child_text):
-		self.__root.elements.append(HtmlElement(child_name, child_text))
+		self.__root=HtmlElement(root_name)
 		
-	#fluent way, permits chaining
-	def add_child_fluent(self, child_name, child_text):
+	#def add_child(self, child_name, child_text):
+	#	self.__root.elements.append(HtmlElement(child_name, child_text))
+	
+	def add_child(self, child_name, child_text):
 		self.__root.elements.append(HtmlElement(child_name, child_text))
 		return self
 		
 	def __str__(self):
 		return str(self.__root)
-
-
+	
+	
 #test
-#builder=HtmlBuilder('ul')
-builder=HtmlElement.create('ul')
-builder.add_child_fluent('li', 'hello').add_child_fluent('li', 'hi').add_child_fluent('li', 'aloha')
+builder=HtmlBuilder('ul')
+#builder.add_child('li', 'hello')
+#builder.add_child('li', 'world')
+builder.add_child('li', 'hello').add_child('li', 'world')
+print('normal builder:')
 print(builder)
