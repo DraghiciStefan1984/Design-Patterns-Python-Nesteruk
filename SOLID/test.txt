@@ -1,4 +1,0 @@
-1:hello
-2:hi
-3:aloha
-4:salut

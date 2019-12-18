@@ -1,54 +1,56 @@
-from enum import Enum
-from abc import ABC, abstractmethod
-
 
 class Rectangle:
 	def __init__(self, width, height):
-		self._width=width
-		self._height=height
+		self.__width=width
+		self.__height=height
 		
 	@property
 	def width(self):
-		return self._width
+		return self.__width
 		
 	@width.setter
 	def width(self, value):
-		self._width=value
+		self.__width=value
 		
 	@property
 	def height(self):
-		return self._height
+		return self.__height
 		
 	@height.setter
 	def height(self, value):
-		self._height=value
+		self.__height=value
 		
 	@property
 	def area(self):
-		return self._width*self._height
+		return self.width*self.height
 		
 	def __str__(self):
-		return f'width:{self.width}, height:{self.height}'
+		return f'width:{self.width} - height{self.height}'
 		
 		
 class Square(Rectangle):
 	def __init__(self, size):
-		super().__init__(size, size)
+		Rectangle().__init__(self, size, size)
 		
 	@Rectangle.width.setter
 	def width(self, value):
-		self._width=self._height=value
+		self.__width=self.__height=value
 		
 	@Rectangle.height.setter
 	def height(self, value):
-		self._width=self._height=value
+		self.__width=self.__height=value
+		
+		
+def use_rectangle(rc):
+	w=rc.width
+	rc.height=10
+	expected=int(w*10)
+	print(f'Expected an area of {expected}, but got {rc.area}')
 	
 	
 #test
-r=Rectangle(10, 25)
-print(r)
-print(r.area)
+rc=Rectangle(2,3)
+use_rectangle(rc)
 
-s=Square(30)
-print(s)
-print(s.area)
+s=Square(4)
+use_rectangle(s)
