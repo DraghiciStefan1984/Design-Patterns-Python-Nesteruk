@@ -1,72 +1,87 @@
-from abc import ABC, abstractmethod
-from enum import Enum
+from abc import ABC
+from enum import Enum, auto
 
 
-#models
 class HotDrink(ABC):
-	@abstractmethod
-	def consume(self):
-		pass
-	
+    def consume(self):
+        pass
+
 
 class Tea(HotDrink):
-	def consume(self):
-		print('This tea is very good!')
-		
-		
+    def consume(self):
+        print('This tea is nice but I\'d prefer it with milk')
+
+
 class Coffee(HotDrink):
-	def consume(self):
-		print('I need coffeeeeeee!')
-		
-		
-#factories
+    def consume(self):
+        print('This coffee is delicious')
+
+
 class HotDrinkFactory(ABC):
-	@abstractmethod
-	def prepare(self, amount):
-		pass
-		
-		
+    def prepare(self, amount):
+        pass
+
+
 class TeaFactory(HotDrinkFactory):
-	def prepare(self, amount):
-		print(f'put tea bag, boil water, pour {amount} mls of milk and enjoy.')
-		return Tea()
-		
-		
+    def prepare(self, amount):
+        print(f'Put in tea bag, boil water, pour {amount}ml, enjoy!')
+        return Tea()
+
+
 class CoffeeFactory(HotDrinkFactory):
-	def prepare(self, amount):
-		print(f'grind some beans, boil water, pour {amount} mls of milk and enjoy.')
-		return Coffee()
-		
-		
+    def prepare(self, amount):
+        print(f'Grind some beans, boil water, pour {amount}ml, enjoy!')
+        return Coffee()
+
+
 class HotDrinkMachine:
-	class AvailableDrink(Enum):
-		COFFEE=1
-		TEA=2
-		
-	factories=[]
-	initialized=False
-		
-	def __int__(self):
-		if not self.initialized:
-			self.initialized=True
-			for d in self.AvailableDrink:
-				name=d.name[0]+d.name[1:].lower()
-				factory_name=name+'Factory'
-				factory_instance=eval(factory_name)()
-				self.factories.append((name, factory_instance))
-				
-	def make_drink(self):
-		print('Available drinks:')
-		for f in self.factories:
-			print(f[0])
-		s=input(f'Please pick a drink: ')
-		index=int(s)
-		s=input(f'Specify amount: ')
-		amount=int(s)
-		return self.factories[index][1].prepare(amount)
+    class AvailableDrink(Enum):  # violates OCP
+        COFFEE = auto()
+        TEA = auto()
+
+    factories = []
+    initialized = False
+
+    def __init__(self):
+        if not self.initialized:
+            self.initialized = True
+            for d in self.AvailableDrink:
+                name = d.name[0] + d.name[1:].lower()
+                factory_name = name + 'Factory'
+                factory_instance = eval(factory_name)()
+                self.factories.append((name, factory_instance))
 
 
 
-#test
-machine=HotDrinkMachine()
-machine.make_drink()
+
+
+    def make_drink(self):
+        print('Available drinks:')
+        for f in self.factories:
+            print(f[0])
+
+        s = input(f'Please pick drink (0-{len(self.factories)-1}): ')
+        idx = int(s)
+        s = input(f'Specify amount: ')
+        amount = int(s)
+        return self.factories[idx][1].prepare(amount)
+
+
+
+def make_drink(type):
+    if type == 'tea':
+        return TeaFactory().prepare(200)
+    elif type == 'coffee':
+        return CoffeeFactory().prepare(50)
+    else:
+        return None
+
+
+if __name__ == '__main__':
+    # entry = input('What kind of drink would you like?')
+    # drink = make_drink(entry)
+    # drink.consume()
+
+    hdm = HotDrinkMachine()
+    drink = hdm.make_drink()
+    drink.consume()
