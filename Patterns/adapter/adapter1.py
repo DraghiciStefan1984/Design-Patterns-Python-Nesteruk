@@ -1,28 +1,32 @@
+#no caching
 
 class Point:
-	def __init__(self, x, y):
-		self.x=x
-		self.y=y
-		
-	def __str__(self):
-		return f'({self.x}, {self.y})'
-		
-		
+    def __init__(self, x, y):
+        self.y = y
+        self.x = x
+
+
+def draw_point(p):
+    print('.', end='')
+
+
 class Line:
-	def __init__(self, start, end):
-		self.start=start
-		self.end=end
-		
-		
-class Rectangle(Line):
-	   def __init__(self, x, y, width, height):
+    def __init__(self, start, end):
+        self.end = end
+        self.start = start
+
+
+class Rectangle(list):
+    """ Represented as a list of lines. """
+
+    def __init__(self, x, y, width, height):
         super().__init__()
         self.append(Line(Point(x, y), Point(x + width, y)))
         self.append(Line(Point(x + width, y), Point(x + width, y + height)))
         self.append(Line(Point(x, y), Point(x, y + height)))
         self.append(Line(Point(x, y + height), Point(x + width, y + height)))
-		
-		
+
+
 class LineToPointAdapter(list):
     count = 0
 
@@ -43,8 +47,8 @@ class LineToPointAdapter(list):
         elif line.end.y - line.start.y == 0:
             for x in range(left, right):
                 self.append(Point(x, top))
-		
-		
+
+
 def draw(rcs):
     print("\n\n--- Drawing some stuff ---\n")
     for rc in rcs:
@@ -52,13 +56,8 @@ def draw(rcs):
             adapter = LineToPointAdapter(line)
             for p in adapter:
                 draw_point(p)
-				
-				
-#test
-if __name__ == '__main__':
-    rs = [
-        Rectangle(1, 1, 10, 10),
-        Rectangle(3, 3, 6, 6)
-    ]
-    draw(rs)
-    draw(rs)
+
+
+rs = [ Rectangle(1, 1, 10, 10), Rectangle(3, 3, 6, 6)]
+draw(rs)
+draw(rs)
