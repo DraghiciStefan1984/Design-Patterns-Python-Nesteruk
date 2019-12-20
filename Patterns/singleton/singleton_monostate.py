@@ -1,12 +1,20 @@
-import random
 
-
+class CEO:
+	__shared_state={'name':'Steve', 'age':35}
+	
+	def __init__(self):
+		self.__dict__=self.__shared_state
+		
+	def __str__(self):
+		return f'{self.name} is {self.age} years old.'
+		
+		
 class Monostate:
-	_shared_state={}
+	__shared_state={}
 	
 	def __new__(cls, *args, **kwargs):
 		obj=super(Monostate, cls).__new__(cls, *args, **kwargs)
-		obj.__dict__=cls._shared_state
+		obj.__dict__=cls.__shared_state
 		return obj
 		
 		
@@ -16,31 +24,23 @@ class CFO(Monostate):
 		self.money_managed=0
 		
 	def __str__(self):
-		return f'{self.name} manages {self.money_managed}$.'
-		
+		return f'{self.name} manages ${self.money_managed} dollars.'
 
-'''
-class CEO:
-	__shared_state={'name':'Stefan', 'age':35}
-	
-	def __init__(self):
-		self.__dict__=self.__shared_state
-		
-	def __str__(self):
-		return f'{self.name} is {self.age} old.'
-'''
-	
-	
 #test
-c1=CFO()
-c1.name='Stef'
-c1.money_managed=1000000
-print(c1)
+ceo1=CEO()
+ceo2=CEO()
+ceo2.age=80
+print(hex(id(ceo1)))
+print(hex(id(ceo2)))
+print(ceo1==ceo2)
 
-c2=CFO()
-c2.name='Ana'
-c2.money_managed=150000
-print(c1)
-print(c2)
-print(hex(id(c1)))
-print(hex(id(c2)))
+
+cfo1=CFO()
+cfo1.name='Mike'
+cfo1.money_managed=125000
+cfo2=CFO()
+cfo2.name='Ana'
+cfo2.money_managed=78500
+print(hex(id(cfo1)))
+print(hex(id(cfo2)))
+print(cfo1==cfo2)
