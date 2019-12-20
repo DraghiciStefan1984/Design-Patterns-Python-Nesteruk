@@ -1,13 +1,14 @@
 import copy
 
+
 class Address:
-	def __init__(self, suite, city, postcode):
+	def __init__(self, street, suite, city):
+		self.street=street
 		self.suite=suite
 		self.city=city
-		self.postcode=postcode
 		
 	def __str__(self):
-		return f'{self.suite}, {self.city}, {self.postcode}'
+		return f'{self.street}, {self.suite}, {self.city}'
 		
 		
 class Employee:
@@ -20,24 +21,29 @@ class Employee:
 		
 		
 class EmployeeFactory:
-	main_office_employee=Employee('', Address('Racovita', 'Bucuresti', 13245)) 
-	aux_office_employee=Employee('', Address('Unirii', 'Bucuresti', 24511))
+	main_employee=Employee('', Address('Racovita', 0, 'Bucharest'))
+	aux_employee=Employee('', Address('Racovita', 0, 'Bucharest'))
 	
 	@staticmethod
 	def __new_employee(proto, name, suite):
 		result=copy.deepcopy(proto)
-		result.address.suite=suite
 		result.name=name
+		result.address.suite=suite
 		return result
+		
+	@staticmethod
+	def new_main_employee(name, suite):
+		return EmployeeFactory.__new_employee(EmployeeFactory.main_employee, name, suite)
 	
 	@staticmethod
-	def new_main_office_employee(name, suite):
-		return EmployeeFactory.__new_employee(EmployeeFactory.main_office_employee, name, suite)
-		
-	@staticmethod
-	def new_aux_office_employee(name, suite):
-		return EmployeeFactory.__new_employee(EmployeeFactory.aux_office_employee, name, suite)
-		
+	def new_aux_employee(name, suite):
+		return EmployeeFactory.__new_employee(EmployeeFactory.aux_employee, name, suite)
+	
+	
 #test
-john=EmployeeFactory.new_main_office_employee('John', 101)
+john=EmployeeFactory.new_main_employee('John', 100)
+jane=EmployeeFactory.new_aux_employee('Jane', 102)
+mike=EmployeeFactory.new_aux_employee('Mike', 112)
 print(john)
+print(jane)
+print(mike)
