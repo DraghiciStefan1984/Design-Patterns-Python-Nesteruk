@@ -1,3 +1,4 @@
+
 class Buffer:
 	def __init__(self, width=30, height=20):
 		self.width=width
@@ -23,7 +24,6 @@ class Viewport:
 		self.buffer.write(text)
 		
 		
-#the facade
 class Console:
 	def __init__(self):
 		b=Buffer()
@@ -40,5 +40,6 @@ class Console:
 		
 #test
 c=Console()
-c.write('hello')
-c.get_char_at(2)
+c.write('test')
+ch=c.get_char_at(2)
+print(ch)

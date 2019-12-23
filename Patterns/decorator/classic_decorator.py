@@ -3,7 +3,7 @@ from abc import ABC
 
 class Shape(ABC):
 	def __str__(self):
-		return 'Shape'
+		return ''
 		
 		
 class Circle(Shape):
@@ -14,7 +14,7 @@ class Circle(Shape):
 		self.radius*=factor
 		
 	def __str__(self):
-		return f'Circle of size {self.radius}.'
+		return f'a circle of radius {self.radius}'
 		
 		
 class Square(Shape):
@@ -22,16 +22,16 @@ class Square(Shape):
 		self.side=side
 		
 	def __str__(self):
-		return f'Circle of side {self.side}.'
+		return f'a square with side of {self.side}'
 		
 		
 class ColoredShape(Shape):
 	def __init__(self, shape, color):
-		self.shape=shape
 		self.color=color
+		self.shape=shape
 		
 	def __str__(self):
-		return f'{self.shape} has the color of {self.color}.'
+		return f'a {self.shape} of color {self.color}.'
 		
 		
 class TransparentShape(Shape):
@@ -40,12 +40,13 @@ class TransparentShape(Shape):
 		self.transparency=transparency
 		
 	def __str__(self):
-		return f'{self.shape} has {self.transparency}% transparency.'
+		return f'{self.shape} has {self.transparency*100}% transparency.'
 		
 		
 #test
-circle=ColoredShape(TransparentShape(Circle(5), 25), 'red')
-#print(circle)
-#circle=ColoredShape(circle, 'red')
-#circle=TransparentShape(circle, 25)
-print(circle)
+c=Circle(2)
+print(c)
+red_c=ColoredShape(c, 'red')
+print(red_c)
+red_half_transp_c=TransparentShape(red_c, .535)
+print(red_half_transp_c)

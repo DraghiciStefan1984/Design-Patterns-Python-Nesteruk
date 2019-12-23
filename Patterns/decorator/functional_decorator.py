@@ -1,22 +1,21 @@
 import time
 
-def timer_decor(func):
+
+def time_it(func):
 	def wrapper():
 		start=time.time()
 		result=func()
 		end=time.time()
-		print(f'{func.__name__} took {int((end-start)*1000)} miliseconds to run.')
+		print(f'{func.__name__} took {int((end-start)*1000)} ms.')
 		return result
 	return wrapper
-	
 
-@timer_decor
 def some_op():
-	print('Start operation')
+	print('start op')
 	time.sleep(1)
-	print('We are done')
+	print('done')
 	return 123
 	
-
+	
 #test
-some_op()
+time_it(some_op)()
