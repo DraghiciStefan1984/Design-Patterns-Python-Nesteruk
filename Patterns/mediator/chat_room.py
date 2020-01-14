@@ -1,3 +1,4 @@
+
 class Person:
 	def __init__(self, name):
 		self.name=name
@@ -5,7 +6,7 @@ class Person:
 		self.room=None
 		
 	def receive(self, sender, message):
-		s=f'{sender}: {message}'
+		s=f'{sender}:{message}'
 		print(f'[{self.name}\'s chat session] {s}')
 		self.chat_log.append(s)
 		
@@ -15,7 +16,7 @@ class Person:
 	def say(self, message):
 		self.room.broadcast(self.name, message)
 		
-	
+		
 class ChatRoom:
 	def __init__(self):
 		self.people=[]
@@ -35,13 +36,15 @@ class ChatRoom:
 		for p in self.people:
 			if p.name==destination:
 				p.receive(source, message)
-
-			
+				
+				
 #test
 room=ChatRoom()
-john=Person('John')
-jane=Person('Jane')
-room.join(john)
-room.join(jane)
-john.say('hellou!')
-jane.say('salut!')
+stef=Person('Stef')
+gabi=Person('Gabi')
+room.join(stef)
+room.join(gabi)
+stef.say('hello')
+gabi.say('hi')
+ana=Person('Ana')
+gabi.private_message(stef, 'neatza')
