@@ -1,4 +1,3 @@
-
 class Creature:
 	def __init__(self, name, attack, defense):
 		self.name=name
@@ -27,28 +26,30 @@ class CreatureModifier:
 			
 class DoubleAttackModifier(CreatureModifier):
 	def handle(self):
-		print(f"Doubling {self.creature.name}'s attack.")
+		print(f'doubling {self.creature.name} attack')
 		self.creature.attack*=2
 		super().handle()
 		
 		
-class DoubleDefenseModifier(CreatureModifier):
+class IncreaseDefenseModifier(CreatureModifier):
 	def handle(self):
-		print(f"Doubling {self.creature.name}'s defense.")
-		self.creature.defense*=2
+		if self.creature.attack<=2:
+			print(f'increasing {self.creature.name} defense')
+			self.creature.defense+=1
 		super().handle()
 		
 		
 class NoBonusesModifier(CreatureModifier):
 	def handle(self):
-		print("No bonuses allowed...")
+		print('no bonuses for you')
 		
 		
 #test
-goblin=Creature("Goblin", 50, 25)
+goblin=Creature('goblin', 1, 1)
 print(goblin)
 root=CreatureModifier(goblin)
 root.add_modifier(DoubleAttackModifier(goblin))
-root.add_modifier(DoubleDefenseModifier(goblin))
+root.add_modifier(IncreaseDefenseModifier(goblin))
+root.add_modifier(DoubleAttackModifier(goblin))
 root.handle()
 print(goblin)
