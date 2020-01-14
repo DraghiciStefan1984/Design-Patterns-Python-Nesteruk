@@ -1,11 +1,12 @@
 
+
 class Bitmap:
 	def __init__(self, filename):
 		self.filename=filename
-		print(f'Loding image from {self.filename}.')
+		print(f'loading from {self.filename}.')
 		
 	def draw(self):
-		print(f'Drawing image {self.filename}.')
+		print('drawing image')
 		
 		
 class LazyBitmap:
@@ -20,11 +21,9 @@ class LazyBitmap:
 		
 		
 def draw_image(image):
-	print('About to draw image')
+	print('about to draw image')
 	image.draw()
-	print('Done drawing image')
+	print('done drawing image')
 		
 #test
-#bmp=LazyBitmap('test.png')
-bmp=Bitmap('test.png')
-draw_image(bmp)
+b=LazyBitmap('test.jpg')
