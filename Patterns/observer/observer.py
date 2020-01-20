@@ -1,9 +1,8 @@
-
 class Event(list):
-	def __call__(self, *args, **kwargs):
+	def __cal__(self, *args, **kwargs):
 		for item in self:
 			item(*args, **kwargs)
-
+			
 
 class Person:
 	def __init__(self, name, address):
@@ -17,12 +16,11 @@ class Person:
 		
 def call_doctor(name, address):
 	print(f'{name} needs a doctor at {address}')
-		
-			
+	
+	
 #test
-p1=Person('Ion', 'Unirii')
-p2=Person('Maria', 'Romana')
-p1.falls_ill.append(call_doctor)
-p2.falls_ill.append(call_doctor)
-p1.catch_a_cold()
-p2.catch_a_cold()
+p=Person('Ana', 'Berceni')
+p.falls_ill.append(call_doctor)
+p.catch_a_cold()
+p.falls_ill.append(lambda name: print('{name} needs a doc.'))
+p.falls_ill.remove(call_doctor)
