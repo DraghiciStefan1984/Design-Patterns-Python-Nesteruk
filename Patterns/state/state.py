@@ -1,32 +1,5 @@
 from abc import ABC
 
-
-class State(ABC):
-	def on(self, switch):
-		print('Light is already on.')
-		
-	def off(self, switch):
-		print('Light is already off.')
-		
-		
-class OnState(State):
-	def __init__(self):
-		print('Light is turned on.')
-		
-	def off(self, switch):
-		print('Turning light off...')
-		switch.state=OffState()
-		
-		
-class OffState(State):
-	def __init__(self):
-		print('Light is turned off.')
-		
-	def on(self, switch):
-		print('Turning light on...')
-		switch.state=OnState()
-
-
 class Switch:
 	def __init__(self):
 		self.state=OffState()
@@ -38,8 +11,34 @@ class Switch:
 		self.state.off(self)
 		
 		
+class State(ABC):
+	def on(self, switch):
+		print('light is already on.')
+		
+	def off(self, switch):
+		print('light is already off.')
+		
+		
+class OnState(State):
+	def __init__(self):
+		print('turning light on.')
+		
+	def off(self, switch):
+		print('turning light off.')
+		switch.state=OffState()
+		
+		
+class OffState(State):
+	def __init__(self):
+		print('turning light off.')
+		
+	def on(self, switch):
+		print('turning light on.')
+		switch.state=OnState()
+		
+		
 #test
-s=Switch()
-s.on()
-s.off()
-s.off()
+sw=Switch()
+sw.on()
+sw.off()
+sw.off()
